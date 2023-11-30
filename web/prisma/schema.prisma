@@ -24,6 +24,8 @@ model User {
 
   avatarId String?
   avatar   Image?  @relation(fields: [avatarId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  comments Comment[]
 }
 
 model Post {
@@ -41,6 +43,8 @@ model Post {
 
   images Image[]
 
+  comments Comment[]
+
   @@index([createdAt])
   @@index([authorId])
 }
@@ -57,4 +61,24 @@ model Image {
 
   posts Post[]
   User  User[]
+}
+
+model Comment {
+  id        String    @id @default(uuid())
+  content   String    @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  comments Comment[] @relation("parentComment")
+
+  fatherCommentId String?
+  fatherComment   Comment? @relation("parentComment", fields: [fatherCommentId], references: [id])
 }
