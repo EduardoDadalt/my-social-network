@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "d:up": "docker compose up -d --force-recreate",
+    "d:up": "docker compose build && docker compose up -d",
     "d:down": "docker compose down",
     "db:push": "prisma db push"
   },
