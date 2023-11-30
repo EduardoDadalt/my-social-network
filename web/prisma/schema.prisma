@@ -40,6 +40,9 @@ model Post {
   likes User[] @relation(name: "Likes")
 
   images Image[]
+
+  @@index([createdAt])
+  @@index([authorId])
 }
 
 model Image {
