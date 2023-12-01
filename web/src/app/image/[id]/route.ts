@@ -1,7 +1,7 @@
 import { ImageController } from "@/controller/ImageController";
 import { NextRequest, NextResponse } from "next/server";
 
-export default async function GET(
+export async function GET(
   request: NextRequest,
   { params: { id } }: { params: { id: string } }
 ) {
