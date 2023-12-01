@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "d:up": "docker compose build && docker compose up -d",
+    "d:up": "docker compose up -d --wait db && docker compose up -d --build",
     "d:down": "docker compose down",
     "db:push": "prisma db push"
   },
