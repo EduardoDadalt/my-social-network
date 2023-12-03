@@ -13,6 +13,7 @@ export type Post = {
   }[];
   _count: {
     likes: number;
+    comments: number;
   };
 } & {
   id: string;

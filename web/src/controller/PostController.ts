@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { type Post } from "../interfaces/Post";
+import { FilterPost } from "@/interfaces/FilterPost";
 
 export default class PostController {
   static async getPost(id: string): Promise<Post | null> {
@@ -9,14 +10,18 @@ export default class PostController {
       include: {
         author: { select: { id: true, name: true, avatarId: true } },
         images: true,
-        _count: { select: { likes: true } },
+        _count: { select: { likes: true, comments: true } },
       },
     });
 
     return post;
   }
 
-  static async getPosts(cursor?: string | null): Promise<Post[]> {
+  static async getPosts({
+    cursor,
+    authorId,
+    published,
+  }: FilterPost): Promise<Post[]> {
     const database = new PrismaClient();
     const posts: Post[] = await database.post.findMany({
       take: 10,
@@ -26,9 +31,9 @@ export default class PostController {
       include: {
         author: { select: { id: true, name: true, avatarId: true } },
         images: true,
-        _count: { select: { likes: true } },
+        _count: { select: { likes: true, comments: true } },
       },
-      where: { published: true },
+      where: { published: published, authorId: authorId },
     });
 
     return posts;
